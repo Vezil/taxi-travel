@@ -20,7 +20,7 @@ const SignUp = () => {
                 <View className="p-5">
                     <InputField
                         label="Name"
-                        placeholder="Entar name"
+                        placeholder="Enter name"
                         icon={icons.person}
                         value={form.name}
                         onChangeText={value => {
