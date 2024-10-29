@@ -2,9 +2,13 @@ import { useState } from 'react';
 import { ScrollView, View, Image, Text } from 'react-native';
 import { icons, images } from '@/constants';
 import InputField from '@/components/InputField';
+import CustomButton from '@/components/CustomButton';
+import { Link } from 'expo-router';
 
 const SignUp = () => {
-    const [form, setForm] = useState({ name: '', email: '', passowrd: '' });
+    const [form, setForm] = useState({ name: '', email: '', password: '' });
+
+    const onSignUpPress = async () => {};
 
     return (
         <ScrollView className="flex-1 bg-white">
@@ -27,7 +31,39 @@ const SignUp = () => {
                             setForm({ ...form, name: value });
                         }}
                     />
+
+                    <InputField
+                        label="Email"
+                        placeholder="Enter email"
+                        icon={icons.email}
+                        value={form.email}
+                        onChangeText={value => {
+                            setForm({ ...form, email: value });
+                        }}
+                    />
+
+                    <InputField
+                        label="Password"
+                        placeholder="Enter password"
+                        icon={icons.lock}
+                        secureTextEntry={true}
+                        value={form.password}
+                        onChangeText={value => {
+                            setForm({ ...form, password: value });
+                        }}
+                    />
+
+                    <CustomButton title="Sign Up" onPress={onSignUpPress} className="mt-6" />
+
+                    {/* TODO: OAuth */}
+
+                    <Link href="/sign-in" className="text-lg text-center text-general-200 mt-10">
+                        <Text>Already have an account?</Text>
+                        <Text className="text-primary-500">Log In</Text>
+                    </Link>
                 </View>
+
+                {/* TODO: Verification Modal */}
             </View>
         </ScrollView>
     );
