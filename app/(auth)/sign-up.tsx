@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { ScrollView, View, Image, Text } from 'react-native';
+import { Link } from 'expo-router';
 import { icons, images } from '@/constants';
 import InputField from '@/components/InputField';
 import CustomButton from '@/components/CustomButton';
-import { Link } from 'expo-router';
+import OAuth from '@/components/OAuth';
 
 const SignUp = () => {
     const [form, setForm] = useState({ name: '', email: '', password: '' });
@@ -55,10 +56,10 @@ const SignUp = () => {
 
                     <CustomButton title="Sign Up" onPress={onSignUpPress} className="mt-6" />
 
-                    {/* TODO: OAuth */}
+                    <OAuth />
 
                     <Link href="/sign-in" className="text-lg text-center text-general-200 mt-10">
-                        <Text>Already have an account?</Text>
+                        <Text>Already have an account? </Text>
                         <Text className="text-primary-500">Log In</Text>
                     </Link>
                 </View>
