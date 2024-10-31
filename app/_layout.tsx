@@ -3,6 +3,13 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
+
+const clerkPublishKey = process.env.VITE_CLERK_PUBLISHABLE_KEY!;
+
+if (!clerkPublishKey) {
+    throw new Error('Missing Clerk Publish Key. Please update your .env file');
+}
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -29,11 +36,15 @@ export default function RootLayout() {
     }
 
     return (
-        <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            <Stack.Screen name="(root)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-        </Stack>
+        <ClerkProvider publishableKey={clerkPublishKey}>
+            <ClerkLoaded>
+                <Stack>
+                    <Stack.Screen name="index" options={{ headerShown: false }} />
+                    <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+                    <Stack.Screen name="(root)" options={{ headerShown: false }} />
+                    <Stack.Screen name="+not-found" />
+                </Stack>
+            </ClerkLoaded>
+        </ClerkProvider>
     );
 }
