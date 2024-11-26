@@ -5,11 +5,56 @@ import { icons, images } from '@/constants';
 import InputField from '@/components/InputField';
 import CustomButton from '@/components/CustomButton';
 import OAuth from '@/components/OAuth';
+import { useSignUp } from '@clerk/clerk-expo';
 
 const SignUp = () => {
+    const { isLoaded, signUp, setActive } = useSignUp();
     const [form, setForm] = useState({ name: '', email: '', password: '' });
+    const [verification, setVerification] = useState({ state: 'default', error: '', code: '' });
 
-    const onSignUpPress = async () => {};
+    const onSignUpPress = async () => {
+        if (!isLoaded) {
+            return;
+        }
+
+        try {
+            await signUp.create({
+                emailAddress: form.email,
+                password: form.password
+            });
+
+            await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+
+            setVerification({ ...verification, state: 'pending' });
+        } catch (error: any) {
+            // See https://clerk.com/docs/custom-flows/error-handling
+            // for more info on error handling
+            console.error(JSON.stringify(error, null, 2));
+        }
+    };
+
+    const onPressVerify = async () => {
+        if (!isLoaded) {
+            return;
+        }
+
+        try {
+            const completeSignUp = await signUp.attemptEmailAddressVerification({
+                code: verification.code
+            });
+
+            if (completeSignUp.status === 'complete') {
+                await setActive({ session: completeSignUp.createdSessionId });
+                setVerification({ ...verification, state: 'success' });
+            } else {
+                console.error(JSON.stringify(completeSignUp, null, 2));
+                setVerification({ ...verification, error: 'Verification failed.', state: 'failed' });
+            }
+        } catch (error: any) {
+            console.error(JSON.stringify(error, null, 2));
+            setVerification({ ...verification, error: error.errors[0].longMessage, state: 'failed' });
+        }
+    };
 
     return (
         <ScrollView className="flex-1 bg-white">

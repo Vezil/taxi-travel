@@ -5,6 +5,8 @@ import { Text, View } from 'react-native';
 export default function Page() {
     const { user } = useUser();
 
+    // https://clerk.com/docs/quickstarts/expo
+
     return (
         <View>
             <SignedIn>
