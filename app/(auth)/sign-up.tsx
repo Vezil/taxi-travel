@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ScrollView, View, Image, Text } from 'react-native';
 import { Link } from 'expo-router';
+import { ReactNativeModal } from 'react-native-modal';
 import { icons, images } from '@/constants';
 import InputField from '@/components/InputField';
 import CustomButton from '@/components/CustomButton';
@@ -109,7 +110,11 @@ const SignUp = () => {
                     </Link>
                 </View>
 
-                {/* TODO: Verification Modal */}
+                <ReactNativeModal isVisible={verification.state === 'success'}>
+                    <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
+                        <Image source={images.check} className="w-[110px] h-[110px] mx-auto my-5" />
+                    </View>
+                </ReactNativeModal>
             </View>
         </ScrollView>
     );
