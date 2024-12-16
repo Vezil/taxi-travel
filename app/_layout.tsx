@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
 
-const clerkPublishKey = process.env.VITE_CLERK_PUBLISHABLE_KEY!;
+const clerkPublishKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
 if (!clerkPublishKey) {
     throw new Error('Missing Clerk Publish Key. Please update your .env file');
